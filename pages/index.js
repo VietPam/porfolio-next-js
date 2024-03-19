@@ -11,7 +11,7 @@ import { ModalProvider } from "../context/modalContext";
 import { ChatProvider } from "../context/ChatContext";
 
 export default function Home() {
-  
+
 
   return (
     <ChatProvider>
@@ -35,6 +35,17 @@ export default function Home() {
           <div className="flex flex-col">
             <Main />
             <About />
+            <div className="w-[80%] mt-28 flex-col mx-auto  " >
+              <p className="text-6xl font-bold my-4" >Find Us</p>
+              <div className="w-[80vw] h-[48rem]"   >
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.2610325792843!2d106.73220141062072!3d10.791308589313935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175279a24dda171%3A0x993423e53b5e40cc!2sC%C3%B4ng%20ty%20TNHH%20STVG!5e0!3m2!1svi!2s!4v1703305604259!5m2!1svi!2s"
+                  width="100%"
+                  height="100%"
+                  style={{ border: "none" }}
+                ></iframe>
+              </div>
+            </div>
             {/* <Work /> */}
             {/* {isClient && isMobile ? <div></div> : <Work />} */}
             {/* <Skill /> */}
