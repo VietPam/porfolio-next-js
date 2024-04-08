@@ -50,9 +50,9 @@ const About = () => {
         >
           <div className="max-w-[1240px] m-auto md:grid-cols-2 gap-8 ">
             <p className="uppercase text-xl md:text-2xl font-lato tracking-widest text-[#fff]">
-              About
+              About me
             </p>
-            <h2 className="py-4 font-lato text-sm underline">Who i Am</h2>
+{/*             <h2 className="py-4 font-lato text-sm underline">Who i Am</h2> */}
             <div className="flex flex-col md:flex-row gap-x-8 ">
               <motion.div
                 style={isInView ? { ...slideAnimation("left") } : null}
