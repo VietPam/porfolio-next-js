@@ -6,10 +6,12 @@ import { slideAnimation } from "../config/motion";
 import { AiOutlineMail } from "react-icons/ai";
 import HideContext from "../context/HideContext";
 import { HiDocumentDownload } from "react-icons/hi";
+import { FaLinkedinIn } from "react-icons/fa";
+import { BsLinkedin } from "react-icons/bs";
 
 const About = () => {
   const { hide, setHide } = useContext(HideContext);
-  
+
   useEffect(() => {
     const image = document.getElementById("image");
     const text = document.getElementById("text");
@@ -18,7 +20,7 @@ const About = () => {
     });
 
     return () => {
-      window.removeEventListener("scroll", () => {});
+      window.removeEventListener("scroll", () => { });
     };
   }, []);
   const ref = useRef(null);
@@ -52,7 +54,7 @@ const About = () => {
             <p className="uppercase text-xl md:text-2xl font-lato tracking-widest text-[#fff]">
               About me
             </p>
-{/*             <h2 className="py-4 font-lato text-sm underline">Who i Am</h2> */}
+            {/*             <h2 className="py-4 font-lato text-sm underline">Who i Am</h2> */}
             <div className="flex flex-col md:flex-row gap-x-8 ">
               <motion.div
                 style={isInView ? { ...slideAnimation("left") } : null}
@@ -77,8 +79,8 @@ const About = () => {
                   <span className="text-[#08d1d1] text-sm md:text-lg font-fuzzy-bubbles">
                     Quang Viet
                   </span>{" "}
-                  a Backend Developer specializing in building robust and efficient web and mobile applications. 
-                  My expertise lies in .NET for backend development, creating scalable services and implementing business logic 
+                  a Backend Developer specializing in building robust and efficient web and mobile applications.
+                  My expertise lies in .NET for backend development, creating scalable services and implementing business logic
                   to drive the functionality of applications.
                   {isMobile && hide ? (
                     <span
@@ -111,21 +113,20 @@ const About = () => {
                     </p>
                   </>
                 )}{" "}
-                <a href="https://github.com/phamquangviet891/quangviet-cv/blob/main/CV-Quangviet.pdf" target="_blank" rel="noreferrer">
-              <button className="hover:scale-110 ease-in duration-300 flex mt-8 rounded-full py-3 px-8 items-center  text-slate-100">
-                <HiDocumentDownload
-                  size={ isMobile ? 14 : 20}
-                  className="ml-2 mt-[2px]"
-                />
-                <p
-                  className={`${
-                     isMobile ? "text-sm" : "text-base"
-                  }`}
-                >
-                  View my CV
-                </p>
-              </button>
-              </a>
+                <a href="https://www.linkedin.com/in/vietpam/" target="_blank" rel="noreferrer">
+                  <button className="hover:scale-110 ease-in duration-300 flex mt-8 rounded-full py-3 px-8 items-center  text-slate-100">
+                    <BsLinkedin
+                      size={isMobile ? 14 : 20}
+                      className="ml-2 mt-[2px] mr-2"
+                    />
+                    <p
+                      className={`${isMobile ? "text-sm" : "text-base"
+                        }`}
+                    >
+                      Contact via Linkedin
+                    </p>
+                  </button>
+                </a>
                 <p className="py-2 text-xs md:text-base font-poppins text-[#fff] underline cursor-pointer"></p>
               </div>
             </div>
