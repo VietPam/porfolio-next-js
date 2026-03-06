@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import ModalContext from "../../context/modalContext";
 import { IoClose } from "react-icons/io5";
-import Lottie, { useLottie } from "lottie-react";
+import dynamic from "next/dynamic";
 import floatingrobot from "../../public/assests/lottie/floatingrobot.json";
 import robot2 from "../../public/assests/lottie/robot2.json";
 import { AnimatePresence, motion } from "framer-motion";
 import ChatContext from "../../context/ChatContext";
 import { slideAnimation } from "../../config/motion";
 import { IoMdSend } from "react-icons/io";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+
 const style = {
   height: 260,
   width: 260,
@@ -25,6 +28,7 @@ export const Floatingwindow = () => {
   const { chatlog, setChatlog } = useContext(ChatContext);
   const [inputvalue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   const [width, setWidth] = useState();
   const handleWidth = () => {
@@ -32,42 +36,31 @@ export const Floatingwindow = () => {
   };
 
   useEffect(() => {
+    setIsClient(true);
     handleWidth();
     window.addEventListener("resize", handleWidth);
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
-  }, [width, setWidth]);
+  }, []);
 
   useEffect(() => {
     const robot = document.getElementById("robot");
     if (robot) {
-      window.addEventListener("scroll", () => {
+      const scrollHandler = () => {
         let offsetY = window.scrollY;
         robot.style.transform = `translateY(${-offsetY * 0.1}px)`;
-      });
-
+      };
+      window.addEventListener("scroll", scrollHandler);
       return () => {
-        window.removeEventListener("scroll", () => {});
+        window.removeEventListener("scroll", scrollHandler);
       };
     }
   }, [modalOpen]);
 
-  const interactivity = {
-    //not working
-    mode: "scroll",
-    actions: [
-      {
-        frames: [0, 181],
-        type: "seek",
-        visibility: [0.1, 0.85],
-      },
-    ],
-  };
-
   const handleSubmit = (e) => {
-    if (loading||inputvalue.length <= 1) {
-      return
+    if (loading || inputvalue.length <= 1) {
+      return;
     } else {
       e.preventDefault();
       setChatlog((chatlog) => [
@@ -77,7 +70,7 @@ export const Floatingwindow = () => {
       setLoading(true);
       fetch("/api/openai", {
         method: "POST",
-        headers: { 
+        headers: {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json",
         },
@@ -86,7 +79,6 @@ export const Floatingwindow = () => {
         res
           .json()
           .then((data) => {
-            console.log(data);
             setChatlog((chatlog) => [
               ...chatlog,
               { role: data.role, message: data?.message },
@@ -115,15 +107,18 @@ export const Floatingwindow = () => {
         >
           <div className="h-[600px] md:h-[700px] pt-4 pr-2  w-80 max-w-md ">
             <div className="flex w-full mt-[-40px] items-center justify-between ">
-              <Lottie
-                loop={true}
-                animationData={robot2}
-                draggable={true}
-                // interactivity={interactivity}
-                style={smallLottie}
-              />
+              {isClient && (
+                <Lottie
+                  loop={true}
+                  animationData={robot2}
+                  draggable={true}
+                  style={smallLottie}
+                />
+              )}
               <div className="flex gap-0 items-center justify-center">
-                <p className="flex items-center justify-center mr-10 font-fuzzy-bubbles">Vinci</p>
+                <p className="flex items-center justify-center mr-10 font-fuzzy-bubbles">
+                  Vinci
+                </p>
               </div>
 
               <IoClose
@@ -136,7 +131,6 @@ export const Floatingwindow = () => {
             <div className="flex flex-col">
               <div className="flex mt-2 h-[460px] md:h-[570px] mb-0 no-scrollbar overflow-y-scroll flex-col">
                 {chatlog.map((chat, i) => {
-                  console.log(chatlog.length, i);
                   return (
                     <div
                       key={i}
@@ -144,18 +138,6 @@ export const Floatingwindow = () => {
                         chat.role === "user" ? "justify-end" : "justify-start"
                       }`}
                     >
-                      {/* {loading &&
-                      chat.role !== "user" &&
-                      i === chatlog.length - 1 ? (
-                        <div key={chatlog.length}>
-                          <Lottie
-                            style={{}}
-                            animationData={animationData}
-                            className="flex justify-center items-center scale-50"
-                            loop={true}
-                          />
-                        </div>
-                      ) : ( */}
                       <div
                         className={`py-1 px-2 mb-5 rounded-lg font-fuzzy-bubbles ease-in duration-700 ${
                           chat.role === "user" ? "bg-purple-500" : "bg-teal-500"
@@ -195,13 +177,15 @@ export const Floatingwindow = () => {
       ) : (
         <AnimatePresence>
           <motion.div className="cursor-pointer" id="robot" onClick={openModal}>
-            <Lottie
-              className="hover:scale-105 ease-in duration-300 "
-              loop={true}
-              animationData={floatingrobot}
-              draggable={true}
-              style={width < 768 ? mediumLottie : style}
-            />
+            {isClient && (
+              <Lottie
+                className="hover:scale-105 ease-in duration-300 "
+                loop={true}
+                animationData={floatingrobot}
+                draggable={true}
+                style={width < 768 ? mediumLottie : style}
+              />
+            )}
           </motion.div>
         </AnimatePresence>
       )}

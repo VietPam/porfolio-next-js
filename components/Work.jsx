@@ -2,10 +2,13 @@ import { AnimatePresence, motion, useInView } from "framer-motion";
 import { slideAnimation } from "../config/motion";
 import React, { useEffect, useRef, useState } from "react";
 import { workDetails } from "../config/db";
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
 import animationData from "../public/assests/lottie/dev.json";
 import { isMobile } from "react-device-detect";
 import { HiDocumentDownload } from "react-icons/hi";
+
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+
 const Work = () => {
   const ref = useRef(null);
   const isInView = useInView(ref);
@@ -42,30 +45,15 @@ const Work = () => {
             <div className="flex flex-row w-[100%]  mt-10 md:mt-16">
               {isClient && isMobile ? null : (
                 <div className="flex flex-col w-1/3 mr-20 ">
-                  <Lottie
-                    draggable="true"
-                    style={{ width: "400px" }}
-                    animationData={animationData}
-                    className="flex justify-center items-center mt-10"
-                    loop={true}
-                  />
-                  {/* {workDetails.map((details, i) => {
-                  return selectedId === details.id
-                    ? details.companyDetails.map((info, i) => {
-                        return (
-                          <div>
-                            <Image
-                              src={info.logo}
-                              width={200}
-                              height={200}
-                              style={{resizeMode:"contain",}}
-                              alt={details.company}
-                            />
-                          </div>
-                        );
-                      })
-                    : null;
-                })} */}
+                  {isClient && (
+                    <Lottie
+                      draggable="true"
+                      style={{ width: "400px" }}
+                      animationData={animationData}
+                      className="flex justify-center items-center mt-10"
+                      loop={true}
+                    />
+                  )}
                 </div>
               )}
 
@@ -97,11 +85,7 @@ const Work = () => {
               >
                 {workDetails.map((details, i) => {
                   return (
-                    <div
-                      key={i}
-                      className={`flex mb-8 flex-col
-                      }`}
-                    >
+                    <div key={i} className={`flex mb-8 flex-col }`}>
                       <span
                         onClick={() => setSelectedId(i)}
                         className={`  ${getTextColor(
@@ -122,7 +106,7 @@ const Work = () => {
                 {workDetails.map((details, i) => {
                   return selectedId === details.id ? (
                     <div
-                    key={i}
+                      key={i}
                       className={`flex flex-col w-auto  ${getTextColor(
                         details.id
                       )}`}
@@ -164,19 +148,19 @@ const Work = () => {
             </div>
             <div className="flex items-center justify-center">
               <a href="/api/download" download={"Lui's CV"}>
-              <button className="hover:scale-110 ease-in duration-300 flex mt-8 rounded-full py-3 px-8 items-center  text-slate-100">
-                <HiDocumentDownload
-                  size={isClient && isMobile ? 14 : 20}
-                  className="ml-2 mt-[2px]"
-                />
-                <p
-                  className={`${
-                    isClient && isMobile ? "text-sm" : "text-base"
-                  }`}
-                >
-                  Download my CV
-                </p>
-              </button>
+                <button className="hover:scale-110 ease-in duration-300 flex mt-8 rounded-full py-3 px-8 items-center  text-slate-100">
+                  <HiDocumentDownload
+                    size={isClient && isMobile ? 14 : 20}
+                    className="ml-2 mt-[2px]"
+                  />
+                  <p
+                    className={`${
+                      isClient && isMobile ? "text-sm" : "text-base"
+                    }`}
+                  >
+                    Download my CV
+                  </p>
+                </button>
               </a>
             </div>
           </div>
