@@ -31,3 +31,4 @@ yarn-error.log*
 
 # vercel
 .vercel
+sumarize-tool/output/all_code.txt
