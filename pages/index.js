@@ -2,10 +2,7 @@ import Head from "next/head";
 import Contact from "../components/Contact";
 import About from "../components/About";
 import Main from "../components/Main";
-import Projects from "../components/Projects";
-import Skill from "../components/Skill";
 import { HideProvider } from "../context/HideContext";
-import Work from "../components/Work";
 import Floatingwindow from "../components/FLoatingWindow/Floatingwindow";
 import { ModalProvider } from "../context/modalContext";
 import { ChatProvider } from "../context/ChatContext";
@@ -46,10 +43,6 @@ export default function Home() {
                 ></iframe>
               </div>
             </div>
-            {/* <Work /> */}
-            {/* {isClient && isMobile ? <div></div> : <Work />} */}
-            {/* <Skill /> */}
-            {/* <Projects /> */}
             <Contact />
             <div className="fixed z-50 bottom-1 left-0">
               <Floatingwindow />
